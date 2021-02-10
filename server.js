@@ -7,12 +7,13 @@ const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const flash = require('express-flash');
+const logger = require('./config/logger');
 require('dotenv').config();
 
 // db connection
 mongoose.connect(process.env.DB_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => console.log(`database connected!`))
-.catch((err) => console.err(err));
+.then(() => logger.info(`database connected!`))
+.catch((err) => logger.error(err));
 
 // ejs
 app.set('view engine', 'ejs');
@@ -47,9 +48,9 @@ app.use('/', require('./routes/index.js'));
 
 // error handling
 app.use(function(err, req, res, next){
-    console.log(err)
+    logger.error(err)
     res.status(500).json('something went wrong :/')
 })
 
 
-app.listen(port, () => console.log(`server is running on port ${port}`));
+app.listen(port, () => logger.info(`starting server on port ${port}`));

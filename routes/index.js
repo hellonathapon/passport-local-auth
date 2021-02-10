@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../config/model');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const logger = require('../config/logger');
 
 router.get('/',checkAuthUser, (req, res) => {
     res.render('index', { user: req.user, isLoggedIn: req.isLogged });
@@ -60,7 +61,7 @@ async function checkCredentials( req, res, next ){
         req.flash('info', 'successfully registed! try login')
         next();
     }catch(err){
-        console.log(err);
+        logger.error(err)
         next(err);
     }
 }
