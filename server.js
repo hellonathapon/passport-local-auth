@@ -17,6 +17,9 @@ mongoose.connect(process.env.DB_STRING, { useNewUrlParser: true, useUnifiedTopol
 // ejs
 app.set('view engine', 'ejs');
 
+// use static assets
+app.use(express.static('public'));
+
 // global middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -39,6 +42,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport');
 
+// routes
 app.use('/', require('./routes/index.js'));
+
+// error handling
+app.use(function(err, req, res, next){
+    console.log(err)
+    res.status(500).json('something went wrong :/')
+})
+
 
 app.listen(port, () => console.log(`server is running on port ${port}`));
