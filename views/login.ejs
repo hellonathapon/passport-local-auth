@@ -43,6 +43,16 @@
                           <input name="password" type="password" class="form-control" id="password" placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
+                        <% if (messages.error) { %>
+                          <div class="alert alert-danger mt-3" role="alert">
+                            <%= messages.error %>
+                          </div>
+                        <% } %>
+                        <% if (messages.info) { %>
+                          <div class="alert alert-success mt-3" role="alert">
+                            <%= messages.info %>
+                          </div>
+                        <% } %>
                       </form>
                 </div>
             </div>

@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const flash = require('express-flash');
 require('dotenv').config();
 
 // db connection
@@ -19,6 +21,7 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(flash());
 
 // setup session
 app.use(session({
@@ -29,7 +32,12 @@ app.use(session({
     cookie: {
         maxAge: 1000 * 60 * 60 *24, // 1 day
     }
-}))
+}));
+
+// passport
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport');
 
 app.use('/', require('./routes/index.js'));
 
